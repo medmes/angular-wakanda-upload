@@ -1,0 +1,112 @@
+<div id="sc-issues" class="container-fluid" ng-controller="EpicsCtrl" ng-init="getIssues()">
+    <!-- toaster directive -->
+    <toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
+    <!-- / toaster directive -->
+    <div class="row">
+        <div class="sc-view-title">
+            <h1>Backlog <SMALL>(All issues)</SMALL></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div id="issue-search" class="right-inner-addon">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="search" class="form-control search-style" placeholder="Search" ng-model="search" />
+        </div>
+        <div id="cboProjects" class="col-md-2 col-sm-3">
+            <select class="form-control" ng-options="p.title for p in projects" ng-selected="item.selected" ng-model="project" ng-change="getIssues()">
+                <option value="">No project selected</option>
+            </select>
+        </div>
+        <div id="cboType" class="col-md-2 col-sm-2">
+            <select name="issueType" class="form-control glyphicon" ng-model="filterValue" ng-change="filterBy()">
+                <option selected disabled>Filter by:</option>
+                <option>Story</option>
+                <option>Task</option>
+                <option>Bug</option>
+                <option>Feature</option>
+            </select>
+        </div>
+
+        <div id="issueAction" class="btn-group pull-right">
+            <button class="btnCustom" data-toggle="dropdown" data-hover="dropdown" data-delay="1000">Action</button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a tabindex="-1" class="pointer" ng-click="openEditModal()" data-toggle="modal" data-target="#editIssueModal">Edit</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a tabindex="-1" class="pointer" ng-click="openEditModal()" data-toggle="modal" data-target="#assignIssueModal">Assign</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-11 sc-epic">
+            <div class="row">
+                <span id="lblEpic" class="label label-default">Epics</span>
+                <button id="btnCreateEpic" class="pull-right" ng-click="openAddEpicModal()" data-toggle="modal" data-target="#addEpicModal">
+                    <span class="glyphicon glyphicon-plus"></span> Create epic
+                </button>
+            </div>
+            <button id="" class="btn btn-warning sc-style" ng-click="getAllIssues()">
+                All issues
+            </button>
+            <div id="epic-list">
+                <div ng-repeat="e in epics" class="epic-style" ng-click="filterIssuesByEpic(e)">
+                    <span id="deleteEpicIcon" class="btn glyphicon glyphicon-remove pull-right" ng-click="openRemoveEpicModal(e)" data-toggle="modal" data-target="#deleteEpicModal"></span>
+                    <span id="editEpicIcon" class="btn glyphicon glyphicon-edit pull-right" style="color:{{e.color}}" ng-click="openEditEpicModal(e)" data-toggle="modal" data-target="#editEpicModal"></span>
+                    <div id="epicName" class="epic-pos">{{e.name}}</div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="700" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                            70% Complete
+                        </div>
+                    </div>
+                    <div id="epicTotalIssues" class=""><small>Issues: {{e.totalIssues}}</small>
+                    </div>
+                </div>
+                <button id="" class="btn btn-info sc-style" ng-click="getIssueswithoutEpics()">
+                    Issues without epics
+                </button>
+            </div>
+
+        </div>
+        <div class="col-md-5 col-sm-11 sc-issue">
+            <div ng-repeat="i in issues | filter:{ name: search }" class="issue-style" ng-click="selectIssue(i)">
+                <div id="issueKey" class="issueTop col-md-2 col-sm-2">{{i.key}}</div>
+                <div id="issueName" class="issueTop col-md-5 col-sm-6">{{i.name}}</div>
+                <div class="sc-estimation issueTop col-md-1 col-sm-1 col-md-offset-4 col-sm-offset-2">{{i.originalEstimate}}</div>
+            </div>
+            <button id="btnAddIssue" class="btnAddIssue" ng-click="openAddModal()" data-toggle="modal" data-target="#issueModal">
+                <span class="glyphicon glyphicon-plus"></span> New Issue
+            </button>
+        </div>
+
+        <div class="col-md-3 col-sm-11 sc-detailsIssue">
+            <h2><span id="" class="label label-default">{{project.title}}/ {{selectedIssue.key}}</span></h2>
+            <h4 class="infoTop"><span id="" class="label label-default">Details:</span></h3>
+            <p>Name: {{selectedIssue.name}}</p>
+            <p>Epic: <b id="issueEpic" style="background-color:{{selectedIssue.epic.color}}">{{selectedIssue.epic.name}}</b>
+            </p>
+            <p>Estimate: {{selectedIssue.originalEstimate}}</p>
+            <p>Issue type: {{selectedIssue.type}}</p>
+            <p>Priority: {{selectedIssue.priority}}</p>
+            <p>Description: {{selectedIssue.description}}</p>
+			<p>Attachments: <ul ng-repeat="attachment in selectedIssue.attachments"><li><b><u><a href="/attachment/?ID={{attachment.ID}}">{{attachment.name}}</a></u></b></li></ul></p>
+            <h4 class="infoTop"><span id="" class="label label-default">People</span></h4>
+            <p>Reporter: <img class="img-member" ng-if="selectedIssue.reporter != null" ng-src="rest/User({{selectedIssue.reporter.ID}})/avatar?$imageformat=best&$expand=avatar"> {{selectedIssue.reporter.fullName}}</p>
+            <p>Assignee: <img class="img-member" ng-if="selectedIssue.assignee != null" ng-src="rest/User({{selectedIssue.assignee.ID}})/avatar?$imageformat=best&$expand=avatar"> {{selectedIssue.assignee.fullName}}</p>
+            <h4 class="infoTop"><span id="" class="label label-default">Date time</span></h4>
+            <p data-date-format="MM d, yy">Create Date: {{selectedIssue.createDate| date:'mediumDate'}}</p>
+            <p data-date-format="MM d, yy">Last Update: {{selectedIssue.updateDate| date:'mediumDate'}}</p>                   
+        </div>
+    </div>
+
+    <div ng-include="'app/issues/views/modals/addModal.html'"></div>
+    <div ng-include="'app/issues/views/modals/editModal.html'"></div>
+    <div ng-include="'app/issues/views/modals/assignModal.html'"></div>
+    <div ng-include="'app/epic/views/modals/addModal.html'"></div>
+    <div ng-include="'app/epic/views/modals/editModal.html'"></div>
+    <div ng-include="'app/epic/views/modals/removeModal.html'"></div>
+</div>
+<!-- /.sc-user -->

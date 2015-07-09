@@ -1,0 +1,150 @@
+/* ---------------------------------------------------------------------- 
+                  *****   wascrum project page css  *****
+-------------------------------------------------------------------------*/
+.sc-epic{
+	top: 20px;
+	left: 30px; 
+	border: 1px #ddd solid;
+	padding: 10px;
+}
+
+.sc-issue{
+	top: 20px;
+	left: 40px; 
+	border: 1px #ddd solid;
+	padding: 10px;
+}
+
+.issue-style{
+	height: 40px;
+	border-left: 8px solid;
+	border-radius: 0px;
+	border-top: 1px #ddd solid;
+	border-right: 1px #ddd solid;
+	border-bottom: 1px #ddd solid;
+}
+
+.epic-style{
+	padding: 5px;
+	height: 80px;
+	border:1px #ddd solid;
+}
+
+.issueTop{
+	top: 9px;
+}
+
+.sc-estimation{
+	background-color: #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#btnCreateEpic{
+	background-color: transparent;
+	color: #ccc;
+	border-style: none;	
+}
+
+#lblEpic{
+	font-size: 14px;
+	margin: 10px;
+}
+
+#epic-list{
+	margin-top: 10px;
+}
+
+.epic-pos{
+	margin: 5px;
+}
+
+#epicTotalIssues{
+	margin-top: -12px;
+	margin-left: 8px;
+}
+
+.btnAddIssue{
+	margin-top: 10px;
+	background-color: transparent;
+	color: #ccc;
+	border-style: none;
+}
+
+#issue-search{
+	width: 200px;
+	left: 30px;
+	top: 40px;
+}
+
+.sc-detailsIssue{
+	top: 20px;
+	margin-left: 50px;
+	border: 1px #ddd solid;
+	font-size: 15px;
+}
+
+#cboProjects{
+	left:230px;
+	top: 6px;
+}
+
+#cboType{
+	top: 6px;
+	left: 210px;
+}
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+#issueAction{
+	right: 36px;
+	top: 20px;
+}
+
+.sc-style{
+	margin-top: 10px
+}
+
+.progress{
+	height: 13px !important;
+	margin-left: 8px;
+}
+
+
+.files-items{
+margin-left: 10px;
+height: 20px;
+padding-top: 3px;
+padding-bottom: 5px;
+}
+
+
+.file-item{
+	margin-left: 10px;
+}
+#issueEpic{
+	color: white;
+	border-radius: 4px;
+	padding: 5px !important;
+}
+
+#editEpicIcon{
+	padding-top: 0px;
+	padding-right: 1px;
+}
+
+#deleteEpicIcon{
+	color: red;
+	padding: 0px;
+}

@@ -1,0 +1,94 @@
+<div class="modal fade" id="issueModal" ng-if="addIssueModalShow==true" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">New Issue</h4>
+            </div>
+
+            <div class="modal-body">
+                <form role="form" name="issueForm" ng-submit="addOnClick(issue)" novalidate>
+
+                    <div class="form-group" ng-class="{'has-error':issueForm.projectName.$invalid && issueForm.projectName.$dirty, 'has-success':issueForm.projectName.$valid}">
+                        <label for="projectName" class="control-label">Project:</label>
+                        <select name="projectName" class="form-control" ng-model="issue.project" ng-options="p1.title for p1 in projects track by p1.ID" required ng-change="getTeamMembers()">
+                            <option selected disabled value="">No project selected</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':issueForm.issueName.$invalid && issueForm.issueName.$dirty, 'has-success':issueForm.issueName.$valid}">
+                        <label for="issueName" class="control-label">Name*:</label>
+                        <input type="text" name="issueName" class="form-control" id="issue-name" placeholder="Issue Name" ng-model="issue.name" required/>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':issueForm.issueType.$invalid && issueForm.issueType.$dirty, 'has-success':issueForm.issueType.$valid}">
+                        <label for="issueType" class="control-label">Type*:</label>
+                        <select name="issueType" class="form-control glyphicon" ng-model="issue.type">
+                            <option class="">Story</option>
+                            <option class="">Task</option>
+                            <option class="">Bug</option>
+                            <option class="">New feature</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':issueForm.issuePriority.$invalid && issueForm.issuePriority.$dirty, 'has-success':issueForm.issuePriority.$valid}">
+                        <label for="issuePriority" class="control-label">Priority*:</label>
+                        <select name="issuePriority" class="form-control glyphicon" ng-model="issue.priority">
+                            <option class="">Major</option>
+                            <option class="">Minor</option>
+                            <option class="">Critical</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cboMembers" class="control-label">Assign to:</label>
+                        <select name="cboMembers" class="form-control" ng-model="issue.assignee" ng-options="member.fullName for member in teamMembers track by member.ID">
+                            <option selected value="">No Member selected</option>
+                        </select>
+                        <a class="pointer" ng-click="assignIssueToMe()"> Assign to me</a>
+                    </div>
+
+                    <div class="form-group" ng-class="{'has-error':issueForm.issueEstimation.$invalid && issueForm.issueEstimation.$dirty, 'has-success':issueForm.issueEstimation.$valid}">
+                        <label for="issueEstimation" class="control-label">Original estimate*:<small>(eg. 3w 4d 12h)</small>
+                        </label>
+                        <input type="text" name="issueEstimation" class="form-control" id="issue-name" placeholder="Estimation" ng-model="issue.originalEstimate" required/>
+                    </div>
+
+                    <div class="form-group" >
+                        <label for="Attachment" class="control-label">Attachments: 
+                        </label>
+                        <input id="files-upload"  class="form-control" type="file" ng-file-change="filesSelected($filesToUpload,$event)" name="files" ng-model="filesToUpload" ng-file-select ng-multiple="true" />
+                        <ul class="list-inline"><li class="files-items tag label label-info" ng-repeat="f in filesToUpload">
+                        <span ng-click="removeFileItem($index,$event)" class="remove glyphicon glyphicon-remove-sign glyphicon-white"></span><span class="file-item">{{f.name}}</span></li>
+                        </ul>
+                    </div>
+
+                        <label for="epicName" class="control-label">Epic link:</label>
+                        <select name="epicName" class="form-control" ng-model="issue.epic" ng-options="e.name for e in epics track by e.ID">
+                            <option selected value="">No epic selected</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sprintName" class="control-label">Sprint:</label>
+                        <select name="sprintName" class="form-control" ng-model="issue.sprint" ng-options="s.name for s in sprints track by s.ID">
+                            <option selected value="">No sprint selected</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="issueDesc" class="control-label">Description:</label>
+                        <textarea class="form-control" name="issueDesc" id="description-text" placeholder="Issue Description" ng-model="issue.description"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="btnCreate" type="submit" ng-disabled="issueForm.$invalid" ng-click="" class="btn btn-primary">Save Issue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
